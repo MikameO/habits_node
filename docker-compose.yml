@@ -1,0 +1,21 @@
+version: '3'
+services:
+  backend:
+    build:
+      context: ./backend   # Путь к папке с бэкендом
+    ports:
+      - "5000:5000"        # Пробрасываем порт для API бэкенда
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/habits_node # Подключение к MongoDB через сервис mongo
+    depends_on:
+      - mongo              # Зависимость от MongoDB
+  
+  mongo:
+    image: mongo           # Используем официальный образ MongoDB
+    ports:
+      - "27017:27017"      # Пробрасываем порт MongoDB для локального доступа (если нужно)
+    volumes:
+      - mongo-data:/data/db # Сохраняем данные MongoDB на хосте
+
+volumes:
+  mongo-data:
